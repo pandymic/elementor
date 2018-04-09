@@ -28,7 +28,9 @@ ResizableBehavior = Marionette.Behavior.extend( {
 		delete options.behaviorClass;
 
 		var $childViewContainer = this.getChildViewContainer(),
-			defaultResizableOptions = {},
+			defaultResizableOptions = {
+				grid: this.view.el.parentElement.clientWidth / 12
+			},
 			resizableOptions = _.extend( defaultResizableOptions, options );
 
 		$childViewContainer.resizable( resizableOptions );
@@ -64,6 +66,9 @@ ResizableBehavior = Marionette.Behavior.extend( {
 		event.stopPropagation();
 
 		this.view.$el.data( 'originalWidth', this.view.el.getBoundingClientRect().width );
+		
+		var $childViewContainer = this.getChildViewContainer();
+		$childViewContainer.resizable( 'option', 'grid', this.view.el.parentElement.clientWidth / 12 );
 
 		this.view.triggerMethod( 'request:resize:start', event );
 	},
